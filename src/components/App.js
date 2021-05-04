@@ -54,7 +54,7 @@ function App() {
           }
         })
     }
-  }, []);
+  }, [history]);
 
   //close on Escape button
   const closeByEscapeBtn = event => {
