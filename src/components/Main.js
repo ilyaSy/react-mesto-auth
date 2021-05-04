@@ -14,8 +14,6 @@ export default function Main(props){
     }    
   }, [currentUser, props.cards]);
 
-  console.log(currentUser, props.cards)
-
   return (
     currentUser && props.cards ?
     <main className="content">
