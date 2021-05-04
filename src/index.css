@@ -6,6 +6,9 @@
 /*section: header*/
 @import url('./blocks/header/header.css');
 @import url('./blocks/header/__logo/header__logo.css');
+@import url('./blocks/header/__login/header__login.css');
+@import url('./blocks/header/__login/_email/header__login_email.css');
+@import url('./blocks/header/__login/_link/header__login_link.css');
 
 @import url('./blocks/content/content.css');
 /*section: profile*/
@@ -49,5 +52,12 @@
 @import url('./blocks/popup/__caption/popup__caption.css');
 @import url('./blocks/popup/__error/popup__error.css');
 @import url('./blocks/popup/__error/_visible/popup__error_visible.css');
+@import url('./blocks/popup/__tooltip/popup__tooltip.css');
 /*Login and Register*/
 @import url('./blocks/login-register/login-register.css');
+@import url('./blocks/login-register/__title/login-register__title.css');
+@import url('./blocks/login-register/__form/login-register__form.css');
+@import url('./blocks/login-register/__input/login-register__input.css');
+@import url('./blocks/login-register/__submit-btn/login-register__submit-btn.css');
+@import url('./blocks/login-register/__already-login/login-register__already-login.css');
+@import url('./blocks/login-register/__already-title/login-register__already-title.css');

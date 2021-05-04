@@ -1,6 +1,5 @@
 import React from 'react';
 import {Switch, Route, useHistory } from 'react-router-dom';
-import Loading from './Loading';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -14,6 +13,7 @@ import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import api from '../utils/api';
 import auth from '../utils/auth';
+import InfoToolTip from './InfoToolTip';
 
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
@@ -21,47 +21,40 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
   const [сardToDelete, setCardToDelete] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState(null);
   const [cards, setCards] = React.useState([])
-  const [textLoading, setTextLoading] = React.useState("Данные загружаются...");
   const [email, setEmail] = React.useState('');
+  const [isRegisterSuccess, setIsRegisterSuccess] = React.useState(false);
 
   const history = useHistory();
-
-  // React.useEffect(() => {
-  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //     .then(([userData, initialCards]) => {
-  //       setCurrentUser(userData);
-  //       setCards(initialCards)
-  //     })
-  //     .catch(err => {
-  //       console.log('Ошибка: ' + err);
-  //       setTextLoading('Ошибка при загрузке данных!');
-  //     })
-  // }, []);
 
   const loadData = () => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
         setCurrentUser(userData);
         setCards(initialCards)
-        history.push('/');
       })
       .catch(err => {
         console.error('Ошибка: ' + err);
-        setTextLoading('Ошибка при загрузке данных!');
       })
   }
 
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt){
-      history.push("/");
-      loadData();
+      auth.validateUser(jwt)
+        .then(res => {
+          if (res.data.email) {
+            setEmail(res.data.email);
+            history.push("/");
+            loadData();
+          }
+        })
     }
-  }, [history]);
+  }, []);
 
   //close on Escape button
   const closeByEscapeBtn = event => {
@@ -141,23 +134,30 @@ function App() {
       .catch(err => console.log('Ошибка: ' + err))
   }
 
-  const handleRegister = (userCredantials) => {
-    auth.registerUser(userCredantials)
+  const handleRegister = (userCredentials) => {
+    auth.registerUser(userCredentials)
       .then(res => {
         if(res.data.email) {
+          setIsRegisterSuccess(true)
           history.push('/sign-in');
+          setIsInfoToolTipOpen(true);
         }
       })
-      .catch(err => console.log('Ошибка: ' + err))
+      .catch(err => {
+        console.log('Ошибка: ' + err)
+        setIsRegisterSuccess(false)
+        setIsInfoToolTipOpen(true);
+      })
   }
 
-  const handleLogin = (userCredantials) => {
-    auth.loginUser(userCredantials)
+  const handleLogin = (userCredentials) => {
+    auth.loginUser(userCredentials)
       .then(res => {
         const jwt = res.token;
         if (jwt){
-          setEmail(userCredantials.email);
+          setEmail(userCredentials.email);
           localStorage.setItem('jwt', jwt);
+          history.push("/");
           loadData();
         }
       })
@@ -169,24 +169,24 @@ function App() {
     history.push('/sign-in');
   }
 
+  const handleCloseInfoToolTip = () => { setIsInfoToolTipOpen(false) }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header email={email} onSignOut={handleSignOut}/>
 
       <Switch>
-        {/* {currentUser && cards ? */}
-          <ProtectedRoute exact path="/"
-            component={Main}
-            cards={cards}
-            onEditProfile={handleEditProfileClick} 
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            onDeleteClick={handleDeleteClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}/>
-          {/* : <Loading text={textLoading}/> */}
-        {/* } */}
+        <ProtectedRoute exact path="/"
+          component={Main}
+          cards={cards}
+          isLoggedIn={email ? true : false}
+          onEditProfile={handleEditProfileClick} 
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          onCardClick={handleCardClick}
+          onDeleteClick={handleDeleteClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}/>
 
         <Route path="/sign-up">
           <Register onRegister={handleRegister}/>
@@ -209,6 +209,8 @@ function App() {
           <ConfirmDeletePopup isOpen={сardToDelete ? true : false} onClose={closeAllPopups} onDeletePlace={handleCardDelete}/>
         </>
       }
+
+      <InfoToolTip isOpen={isInfoToolTipOpen} onClose={handleCloseInfoToolTip} success={isRegisterSuccess ? true : false} />
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </CurrentUserContext.Provider>

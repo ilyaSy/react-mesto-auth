@@ -1,12 +1,23 @@
 import React from 'react';
 import Card from './Card';
+import Loader from './Loader';
 
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 export default function Main(props){
   const currentUser = React.useContext(CurrentUserContext);
+  const [textLoading, setTextLoading] = React.useState("Данные загружаются...");
+
+  React.useEffect(() => {
+    if (!currentUser || !props.cards) {
+      setTextLoading("Данные загружаются...");
+    }    
+  }, [currentUser, props.cards]);
+
+  console.log(currentUser, props.cards)
 
   return (
+    currentUser && props.cards ?
     <main className="content">
       <section className="profile" aria-label="content">
         <div className="profile__avatar-container">
@@ -31,6 +42,7 @@ export default function Main(props){
             onCardLike={props.onCardLike}/>
         )}
       </section>
-    </main>
+    </main> :
+    <Loader text={textLoading}/>
   )
 }

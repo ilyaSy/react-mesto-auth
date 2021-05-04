@@ -8,7 +8,7 @@ export default function Header(props){
   return (
     <header className="header">
       <img src={logo} alt="Логотип: Mesto Russia" className="header__logo" />
-      <p className="header__login">
+      <div className="header__login">
         {props.email && <p className="header__login_email">{props.email}</p>}
         {
           location.pathname === '/sign-in' &&
@@ -20,11 +20,9 @@ export default function Header(props){
         }
         {
           location.pathname === '/' &&
-          <>
-            <p to='/sign-out' className="header__login_link" onClick={props.onSignOut}>Выйти</p>
-          </>
+          <p to='/sign-out' className="header__login_link" onClick={props.onSignOut}>Выйти</p>
         }
-      </p>
+      </div>
     </header>
   )
 }

@@ -35,14 +35,14 @@ export class Auth{
             return Promise.reject(`Ошибка в {loginUser}: пользователь с ${userData.email} не найден`)
           }
           else {
-            Promise.reject(`Ошибка получения результата в {loginUser}: ${res.status} ${res.statusText}`);
+            return Promise.reject(`Ошибка получения результата в {loginUser}: ${res.status} ${res.statusText}`);
           }
         }
       })
   }
 
   validateUser(jwt){
-    return fetch(`${authURL}/users/me`, {method: ' GET', headers: {...this._headers, "Authorization": `Bearer ${jwt}`}})
+    return fetch(`${authURL}/users/me`, {method: 'GET', headers: {...this._headers, "Authorization": `Bearer ${jwt}`}})
     .then(res => {
       if (res.ok) {
         return res.json()
@@ -55,7 +55,7 @@ export class Auth{
           return Promise.reject(`Ошибка в {validateUser}: Переданный токен некорректен`)
         }
         else {
-          Promise.reject(`Ошибка получения результата в {validateUser}: ${res.status} ${res.statusText}`);
+          return Promise.reject(`Ошибка получения результата в {validateUser}: ${res.status} ${res.statusText}`);
         }
       }
     })

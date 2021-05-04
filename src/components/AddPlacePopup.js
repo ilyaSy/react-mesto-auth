@@ -15,7 +15,7 @@ export default function AddPlacePopup(props) {
   const handleChangeLink = event => { setLink(event.target.value) }
 
   return (
-    <PopupWithForm title='Новое место' name='add' submitBtnName='Сохранить' isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+    <PopupWithForm title='Новое место' name='add' isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
       <input 
         type="text"
         name="name"
@@ -36,6 +36,7 @@ export default function AddPlacePopup(props) {
         value={link}
         onChange={handleChangeLink}/>
       <p className="popup__error link-error"></p>
+      <button type="submit" className="popup__save-button">Сохранить</button>
     </PopupWithForm>
   );
 }

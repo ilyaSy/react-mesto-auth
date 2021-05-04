@@ -18,7 +18,7 @@ export default function EditProfilePopup(props) {
   const handleChangeDescription = event => { setDescription(event.target.value) }
 
   return (
-    <PopupWithForm title='Редактировать профиль' name='edit' submitBtnName='Сохранить' isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+    <PopupWithForm title='Редактировать профиль' name='edit' isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
       <input type="text"
         name="profileName"
         placeholder="Имя"
@@ -39,6 +39,7 @@ export default function EditProfilePopup(props) {
         value={description}
         onChange={handleChangeDescription}/>
       <p className="popup__error profileJob-error"></p>
+      <button type="submit" className="popup__save-button">Сохранить</button>
     </PopupWithForm>
   );
 }
