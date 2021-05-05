@@ -14,6 +14,7 @@ export default function Main(props) {
     }
   }, [currentUser, props.cards]);
 
+  //у меня Shift + Alt + F правит только отступы!
   return (
     currentUser && props.cards ?
       (<main className="content">
@@ -33,14 +34,15 @@ export default function Main(props) {
         </section>
 
         <section className="elements" aria-label="elements">
-          {props.cards.map((card) =>
+          {props.cards.map((card) => (
             <Card card={card} key={card._id}
               onCardClick={props.onCardClick}
               onDeleteClick={props.onDeleteClick}
               onCardLike={props.onCardLike} />
+          )
           )}
         </section>
       </main>) :
-      <Loader text={textLoading} />
+      (<Loader text={textLoading} />)
   )
 }
