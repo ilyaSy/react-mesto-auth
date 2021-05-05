@@ -202,12 +202,12 @@ function App() {
       <Footer />
 
       {currentUser && cards &&
-        <>
+        (<>
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
           <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
           <ConfirmDeletePopup isOpen={сardToDelete ? true : false} onClose={closeAllPopups} onDeletePlace={handleCardDelete}/>
-        </>
+        </>)
       }
 
       <InfoToolTip isOpen={isInfoToolTipOpen} onClose={handleCloseInfoToolTip} success={isRegisterSuccess ? true : false} />
