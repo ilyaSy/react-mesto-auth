@@ -12,15 +12,15 @@ export default function Header(props){
         {props.email && <p className="header__login_email">{props.email}</p>}
         {
           location.pathname === '/sign-in' &&
-          <Link to='/sign-up' className="header__login_link">Регистрация</Link>
+          (<Link to='/sign-up' className="header__login_link">Регистрация</Link>)
         }
         {
           location.pathname === '/sign-up' &&
-          <Link to='/sign-in' className="header__login_link">Войти</Link>
+          (<Link to='/sign-in' className="header__login_link">Войти</Link>)
         }
         {
           location.pathname === '/' &&
-          <p to='/sign-out' className="header__login_link" onClick={props.onSignOut}>Выйти</p>
+          (<p to='/sign-out' className="header__login_link" onClick={props.onSignOut}>Выйти</p>)
         }
       </div>
     </header>
