@@ -37,9 +37,7 @@ function App() {
         setCurrentUser(userData);
         setCards(initialCards)
       })
-      .catch(err => {
-        console.error('Ошибка: ' + err);
-      })
+      .catch(err => console.error('Ошибка: ' + err))
   }
 
   React.useEffect(() => {
@@ -53,6 +51,7 @@ function App() {
             loadData();
           }
         })
+        .catch(err => console.error('Ошибка: ' + err))
     }
   }, [history]);
 
@@ -100,14 +99,14 @@ function App() {
   const handleUpdateUser = ({name, about}) => {
     api.editUserInfo({name, about})
       .then(userData => {setCurrentUser(userData)})
-      .then(() => {closeAllPopups()})
+      .then(closeAllPopups)
       .catch(err => console.log('Ошибка: ' + err))
   }
 
   const handleUpdateAvatar = avatar => {
     api.setUserAvatar( avatar )
       .then(userData => {setCurrentUser(userData)})
-      .then(() => {closeAllPopups()})
+      .then(closeAllPopups)
       .catch(err => console.log('Ошибка: ' + err))
   }
 
@@ -123,14 +122,14 @@ function App() {
     const card = сardToDelete;
     api.deleteCard(card._id)
       .then(() => { setCards(cards => cards.filter(c => c._id !== card._id)) })
-      .then(() => {closeAllPopups()})
+      .then(closeAllPopups)
       .catch(err => console.log('Ошибка: ' + err))
   }
 
   const handleAddPlaceSubmit = card => {
     api.addCard(card)
       .then(newCard => {setCards([newCard, ...cards])})
-      .then(() => {closeAllPopups()})
+      .then(closeAllPopups)
       .catch(err => console.log('Ошибка: ' + err))
   }
 
@@ -161,6 +160,7 @@ function App() {
           loadData();
         }
       })
+      .catch(err => console.error('Ошибка: ' + err))
   }
 
   const handleSignOut = () => {

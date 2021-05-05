@@ -33,7 +33,7 @@ export default function Main(props){
       </section>
 
       <section className="elements" aria-label="elements">
-        {props.cards.map(card =>
+        {props.cards.map((card) =>
           <Card card={card} key={card._id} 
             onCardClick={props.onCardClick} 
             onDeleteClick={props.onDeleteClick}

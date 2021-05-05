@@ -13,6 +13,7 @@ export default function PopupWithForm(props){
         <fieldset className="popup__fieldset">
           {props.title && <h2 className="popup__title">{props.title}</h2>}
           {props.children}
+          {props.btnName && <button type="submit" className="popup__save-button">{props.btnName}</button>}
         </fieldset>
       </form>
     </div>
