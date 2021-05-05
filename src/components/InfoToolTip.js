@@ -8,14 +8,14 @@ export default function InfoToolTip(props){
     <PopupWithForm isOpen={props.isOpen} onClose={props.onClose}>
       {
         props.success ?
-          <figure className="popup__tooltip">
+          (<figure className="popup__tooltip">
             <img src={registerSuccess} alt="Регистрация: успех"/>
             <figcaption className="popup__title">Вы успешно зарегистрировались</figcaption>
-          </figure> :
-          <figure className="popup__tooltip">
+          </figure>) :
+          (<figure className="popup__tooltip">
             <img src={registerFail} alt="Регистрация: ошибка"/>
             <figcaption className="popup__title">Что-то пошло не так! Попробуйте ещё раз.</figcaption>
-          </figure>
+          </figure>)
       }
     </PopupWithForm>
   )
