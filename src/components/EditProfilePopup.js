@@ -28,7 +28,7 @@ export default function EditProfilePopup(props) {
         required
         value={name}
         onChange={handleChangeName}/>
-      <p className="popup__error profileName-error"></p>
+      <p className="popup__error profileName-error">&nbsp;</p>
       <input type="text"
         name="profileJob"
         placeholder="Профессия"
@@ -38,7 +38,7 @@ export default function EditProfilePopup(props) {
         required
         value={description}
         onChange={handleChangeDescription}/>
-      <p className="popup__error profileJob-error"></p>
+      <p className="popup__error profileJob-error">&nbsp;</p>
     </PopupWithForm>
   );
 }
